@@ -1,0 +1,48 @@
+El juego permite tomar un lenguaje que describa cartas (y/o nuevas reglas, esto quizás no),
+agregarlas a tu mazo, y luego jugar con ellas contra un adversario o una PC.
+
+Reglas:
+-Cada jugador comienza el juego con W Vida, X Mana, Y Poder, Z Cartas. 
+-Cada jugador gana _ Cartas, _ Poder, _ Mana al comienzo de su turno
+-El jugador puede jugar tantas cartas como quiera, siempre que pueda pagar
+su costo en Mana
+-El tablero consiste en ([Criatura],[Criatura]) con tamaños iguales
+
+Lenguaje de Cartas:
+Si comienza con mayúscula o número, es una palabra clave.
+si es una palabra en minúscula, se ignora.
+
+
+Cada carta contiene:
+	- Si es Criatura o Hechizo
+		-Si es Criatura, tendrá Vida (Int), Ataque (Int) y [Habilidad]
+			-Cada Habilidad tiene Costo (Int) y [Accion]
+			-Acciones:
+				Copia <Vida/Ataque> <PossibleTargetCreature>
+				Copia <Vida/Mana/> <PossibleTargetCreature>
+				Destruye <[PossibleTarget]>
+				Quita <Int> <Vida/Ataque> <[PossibleTarget]>
+				Agrega <Int> <Vida/Ataque> <[PossibleTarget]>
+			-PossibleTarget :: (Int, Criatura -> Bool) | , te diría a qué criaturas puede afectar del tablero
+			Formato: <Nro de Cartas afectadas (Int) o Todas >
+				 <
+			Ejemplos: - 1 Criatura Con Vida > 5 ---> possibleTarget = (1, \creature -> creature.life > 5)
+				  - 2 Criaturas De Adversario -> possibleTarget1 = \creature -> isOwnedBy state.getOpponent creature
+								 possibleTarget1 = \creature -> isOwnedBy state.getOpponent creature 
+				  - Todas las Criaturas en el tablero
+		-Si es Hechizo, tendrá Target (Los targets pueden ser Criaturas
+		del tablero o Jugadores
+	-
+
+
+
+Ejemplos de cartas:
+1.
+Nombre: Minotauro
+Tipo: Criatura
+Vida: 11
+Ataque: 1
+Habilidades:
+- (Costo 0): Copia Ataque 
+- (Costo 20): Destruye Todas 
+
