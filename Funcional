@@ -14,23 +14,26 @@ si es una palabra en minúscula, se ignora.
 
 
 Cada carta contiene:
-	- Si es Criatura o Hechizo
+	- Nombre
+	- Costo (Int) (Calculado en base a las habilidades? De ser así, no se parsearía)
+	- Tipo. Si es Criatura o Hechizo
 		-Si es Criatura, tendrá Vida (Int), Ataque (Int) y [Habilidad]
 			-Cada Habilidad tiene Costo (Int) y [Accion]
 			-Acciones:
 				Copia <Vida/Ataque> <PossibleTargetCreature>
 				Copia <Vida/Mana/> <PossibleTargetCreature>
-				Destruye <[PossibleTarget]>
+				Destruye <[PossibleTargetCreature]>
 				Quita <Int> <Vida/Ataque> <[PossibleTarget]>
 				Agrega <Int> <Vida/Ataque> <[PossibleTarget]>
-			-PossibleTarget :: (Int, Criatura -> Bool) | , te diría a qué criaturas puede afectar del tablero
+				
+			-PossibleTargetCreature :: (Quantity Int, Criatura -> Bool) | (All, Criatura -> Bool) te diría a qué criaturas puede afectar del tablero
 			Formato: <Nro de Cartas afectadas (Int) o Todas >
 				 <
 			Ejemplos: - 1 Criatura Con Vida > 5 ---> possibleTarget = (1, \creature -> creature.life > 5)
 				  - 2 Criaturas De Adversario -> possibleTarget1 = \creature -> isOwnedBy state.getOpponent creature
 								 possibleTarget1 = \creature -> isOwnedBy state.getOpponent creature 
 				  - Todas las Criaturas en el tablero
-		-Si es Hechizo, tendrá Target (Los targets pueden ser Criaturas
+		-Si es Hechizo, tendrá [Accion]
 		del tablero o Jugadores
 	-
 
@@ -45,4 +48,3 @@ Ataque: 1
 Habilidades:
 - (Costo 0): Copia Ataque 
 - (Costo 20): Destruye Todas 
-
